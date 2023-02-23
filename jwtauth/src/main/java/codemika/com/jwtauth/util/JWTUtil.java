@@ -19,13 +19,15 @@ public class JWTUtil {
                 .setClaims(claims)
                 .setIssuedAt(new Date(nowMill))
                 .setExpiration(exp)
-                .signWith(SignatureAlgorithm.HS512, "secret")
+                .signWith(SignatureAlgorithm.HS512, "hello")
                 .compact();
     }
-    public boolean validateToken(final String token){
+    public boolean validateToken(String token){
+        token = token.replace("\"","");
+        token = token.trim();
         boolean isValid = false;
         try{
-            Jwts.parser().setSigningKey("secret").parseClaimsJws(token);
+            Jwts.parser().setSigningKey("hello").parseClaimsJws(token);
             isValid = true;
         } catch (RuntimeException e){
             log.error(e.getMessage());
@@ -34,7 +36,7 @@ public class JWTUtil {
     }
     public Claims getClaims (String token){
         try{
-            return Jwts.parser().setSigningKey("secret")
+            return Jwts.parser().setSigningKey("hello")
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e){

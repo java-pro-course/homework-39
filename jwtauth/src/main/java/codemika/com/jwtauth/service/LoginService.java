@@ -38,8 +38,8 @@ public class LoginService {
 
         Claims claims = Jwts.claims();
         claims.put("id", user.get().getId());
-        claims.put("name", user.get().getName());
-        claims.put("surname", user.get().getSurname());
+        claims.put("first_name", user.get().getName());
+        claims.put("last_name", user.get().getSurname());
 
         String newToken = jwtUtil.generateToken(claims);
 
