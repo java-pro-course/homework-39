@@ -35,6 +35,8 @@ public class JWTUtil {
         return isValid;
     }
     public Claims getClaims (String token){
+        token = token.replace("\"","");
+        token = token.trim();
         try{
             return Jwts.parser().setSigningKey("hello121")
                     .parseClaimsJws(token)

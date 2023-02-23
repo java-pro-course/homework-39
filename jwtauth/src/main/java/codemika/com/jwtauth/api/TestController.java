@@ -17,8 +17,8 @@ public class TestController {
         return ResponseEntity.ok("Token INVALID");
     }
 
-    @GetMapping("be-lucky")
-    public ResponseEntity<?> beLucky(@RequestHeader("Authorization") String token){
+    @PostMapping("be-lucky")
+    public ResponseEntity<?> beLucky(@RequestBody String token){
         Claims parseToken = jwtUtil.getClaims(token);
         return ResponseEntity.ok(parseToken.toString());
     }
