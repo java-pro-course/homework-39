@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - logicalFilePath: 1.0/role-table
+  - changeSet:
+      id: role-table
+      author: xcrynge
+      changes:
+        - createTable:
+            schemaName: xcrynge_jwt
+            tableName: role
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: USER
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ADMIN
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: MODERATOR
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: INVESTOR
+                  type: boolean
+                  constraints:
+                    nullable: false
