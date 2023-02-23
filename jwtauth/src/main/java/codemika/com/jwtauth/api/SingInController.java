@@ -1,5 +1,6 @@
 package codemika.com.jwtauth.api;
 
+import codemika.com.jwtauth.dto.CreateRole;
 import codemika.com.jwtauth.dto.CreateUser;
 import codemika.com.jwtauth.service.SignUpService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class SingInController {
 
 
     @PostMapping("Sign-Up")
-    private ResponseEntity<?> SignIn(@RequestBody CreateUser createUser){
-        return service.signUp(createUser);
+    private ResponseEntity<?> SignIn(@RequestBody CreateUser createUser, CreateRole createRole){
+        return service.signUp(createUser, createRole);
     }
 }

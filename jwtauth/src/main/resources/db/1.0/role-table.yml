@@ -9,29 +9,34 @@ databaseChangeLog:
             tableName: role
             columns:
               - column:
-                  name: user_id
+                  name: id
                   type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: USER
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_user
                   type: boolean
                   constraints:
                     nullable: false
               - column:
-                  name: ADMIN
+                  name: is_admin
                   type: boolean
                   constraints:
                     nullable: false
               - column:
-                  name: MODERATOR
+                  name: is_moderator
                   type: boolean
                   constraints:
                     nullable: false
               - column:
-                  name: INVESTOR
+                  name: is_investor
                   type: boolean
                   constraints:
                     nullable: false

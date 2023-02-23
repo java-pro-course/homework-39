@@ -19,4 +19,6 @@ public class UserEntity {
     @Column(name = "last_name")
     private String surname;
     private String password;
+    @OneToOne(mappedBy = "user")
+    private RoleEntity role;
 }

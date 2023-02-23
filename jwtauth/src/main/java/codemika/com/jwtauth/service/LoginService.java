@@ -2,7 +2,9 @@ package codemika.com.jwtauth.service;
 
 import codemika.com.jwtauth.dto.LoginUser;
 import codemika.com.jwtauth.dto.RsCommonUser;
+import codemika.com.jwtauth.entity.RoleEntity;
 import codemika.com.jwtauth.entity.UserEntity;
+import codemika.com.jwtauth.repository.RoleRepository;
 import codemika.com.jwtauth.repository.UserRepository;
 import codemika.com.jwtauth.util.JWTUtil;
 import io.jsonwebtoken.Claims;
@@ -21,6 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LoginService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final JWTUtil jwtUtil;
 
     public ResponseEntity<?> loginUser(LoginUser rq){
@@ -35,11 +38,15 @@ public class LoginService {
                     .status(HttpStatus.BAD_REQUEST)
                     .body("The password is incorrect!");
         }
+        Optional<RoleEntity> role = roleRepository.findByUser_id(user.get().getId());
 
         Claims claims = Jwts.claims();
         claims.put("id", user.get().getId());
-        claims.put("first_name", user.get().getName());
-        claims.put("last_name", user.get().getSurname());
+        claims.put("name", user.get().getName());
+        claims.put("surname", user.get().getSurname());
+        claims.put("isAdmin", role.get().is_admin());
+        claims.put("isModerator", role.get().is_moderator());
+        claims.put("isInvestor", role.get().is_investor());
 
         String newToken = jwtUtil.generateToken(claims);
 
@@ -49,7 +56,11 @@ public class LoginService {
                 .setSurname(user.get().getSurname())
                 .setEmail(user.get().getEmail())
                 .setPassword(user.get().getPassword())
-                .setToken(newToken);
+                .setToken(newToken)
+                .set_user(role.get().is_user())
+                .set_admin(role.get().is_admin())
+                .set_investor(role.get().is_investor())
+                .set_moderator(role.get().is_moderator());
         return ResponseEntity.ok(response);
     }
 }

@@ -13,4 +13,8 @@ public class RsCommonUser {
     private String email;
     private String password;
     private String token;
+    private boolean is_user;
+    private boolean is_admin;
+    private boolean is_moderator;
+    private boolean is_investor;
 }
