@@ -12,14 +12,14 @@ import java.util.Date;
 public class JWTUtil {
     public String generateToken(Claims claims){
         long nowMill = System.currentTimeMillis();
-        long expMill = nowMill + 1_000_000_000_000_000L;
+        long expMill = nowMill + 100000000L;
         Date exp = new Date(expMill);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(nowMill))
                 .setExpiration(exp)
-                .signWith(SignatureAlgorithm.HS512, "hello")
+                .signWith(SignatureAlgorithm.HS512, "hello121")
                 .compact();
     }
     public boolean validateToken(String token){
@@ -27,7 +27,7 @@ public class JWTUtil {
         token = token.trim();
         boolean isValid = false;
         try{
-            Jwts.parser().setSigningKey("hello").parseClaimsJws(token);
+            Jwts.parser().setSigningKey("hello121").parseClaimsJws(token);
             isValid = true;
         } catch (RuntimeException e){
             log.error(e.getMessage());
@@ -36,7 +36,7 @@ public class JWTUtil {
     }
     public Claims getClaims (String token){
         try{
-            return Jwts.parser().setSigningKey("hello")
+            return Jwts.parser().setSigningKey("hello121")
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e){
