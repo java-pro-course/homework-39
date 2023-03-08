@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - logicalFilePath: 1.0/role-table
+  - changeSet:
+      id: role-table-0
+      author: koritskiy-ay
+      changes:
+        - createTable:
+            schemaName: jwt
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: text
+                  constraints:
+                    nullable: false

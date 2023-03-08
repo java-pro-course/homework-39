@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,6 +27,7 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-//    @Column(name = "role")
-//    private String role;
+    @OneToMany(mappedBy = "user")
+    private List<RoleUserEntity> userRoles;
+
 }

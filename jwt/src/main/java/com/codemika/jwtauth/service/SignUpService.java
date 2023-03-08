@@ -2,7 +2,11 @@ package com.codemika.jwtauth.service;
 
 import com.codemika.jwtauth.dto.RqCreateUser;
 import com.codemika.jwtauth.dto.RsCommonUser;
+import com.codemika.jwtauth.entity.RoleEntity;
+import com.codemika.jwtauth.entity.RoleUserEntity;
 import com.codemika.jwtauth.entity.UserEntity;
+import com.codemika.jwtauth.repository.RoleRepository;
+import com.codemika.jwtauth.repository.RoleUserRepository;
 import com.codemika.jwtauth.repository.UserRepository;
 import com.codemika.jwtauth.util.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -12,14 +16,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class SignUpService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final RoleUserRepository roleUserRepository;
     private final JwtUtil jwtUtil;
 
     public ResponseEntity<?> signUpUserService(RqCreateUser rq){
-        if(repository.findByEmail(rq.getEmail()).isPresent()){
+        if(userRepository.findByEmail(rq.getEmail()).isPresent()){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("User with this email already exists");
@@ -31,12 +39,25 @@ public class SignUpService {
                 .setEmail(rq.getEmail())
                 .setPassword(rq.getPassword());
 
-        user = repository.save(user);
+        user = userRepository.save(user);
+
+        Optional<RoleEntity> role = roleRepository.findByRole("USER");
+        if(!role.isPresent()){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("This role does not exist!");
+        }
+        RoleUserEntity roleUser = new RoleUserEntity()
+                .setUser(user)
+                 .setRole(role.get());
+        roleUserRepository.save(roleUser);
 
         Claims claims = Jwts.claims();
         claims.put("id", user.getId());
         claims.put("name", user.getFirstName());
         claims.put("surname", user.getLastName());
+
+        //TODO: клэйм с ролью
 
         RsCommonUser response = new RsCommonUser()
                 .setId(user.getId())

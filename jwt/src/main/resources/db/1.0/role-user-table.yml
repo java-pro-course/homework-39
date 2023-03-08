@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - logicalFilePath: 1.0/role-user-table
+  - changeSet:
+      id: role-user-table-0
+      author: koritskiy-ay
+      changes:
+        - createTable:
+            schemaName: jwt
+            tableName: role_user
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+  - changeSet:
+      id: role-user-table-1
+      author: koritskiy-ay
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_user_id
+            baseColumnNames: user_id
+            baseTableName: role_user
+            baseTableSchemaName: jwt
+            referencedColumnNames: id
+            referencedTableName: user
+            referencedTableSchemaName: jwt
+  - changeSet:
+      id: role-table-2
+      author: koritskiy-ay
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_role_id
+            baseColumnNames: role_id
+            baseTableName: role_user
+            baseTableSchemaName: jwt
+            referencedColumnNames: id
+            referencedTableName: role
+            referencedTableSchemaName: jwt

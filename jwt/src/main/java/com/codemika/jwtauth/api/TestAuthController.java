@@ -46,4 +46,6 @@ public class TestAuthController {
                 String.format("Welcome %s %s. Your id is #%s.", surname, name, id )
         );
     }
+
+    //TODO: проверка ролей через метод
 }
