@@ -1,4 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: user-table.yml
-      relativeToChangelogFile: true
