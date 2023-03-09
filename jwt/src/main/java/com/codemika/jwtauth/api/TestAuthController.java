@@ -1,5 +1,6 @@
 package com.codemika.jwtauth.api;
 
+import com.codemika.jwtauth.entity.RoleUserEntity;
 import com.codemika.jwtauth.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,5 +50,13 @@ public class TestAuthController {
         );
     }
 
-    //TODO: проверка ролей через метод
+    @GetMapping("role-check")
+    public ResponseEntity roleCheckMethod(@RequestHeader("Authorisation") String token){
+        Claims parseToken = jwtUtil.getClaims(token);
+        String roles = parseToken.get("roles", String.class);
+        if(roles.contains("ADMIN")){
+            return ResponseEntity.ok("YOU HAVE A MASSIVE AMOUNT OF POWER!");
+        }
+        return ResponseEntity.ok(String.format("Your roles: %s", roles));
+    }
 }

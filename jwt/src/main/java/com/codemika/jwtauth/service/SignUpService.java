@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,8 +57,7 @@ public class SignUpService {
         claims.put("id", user.getId());
         claims.put("name", user.getFirstName());
         claims.put("surname", user.getLastName());
-
-        //TODO: клэйм с ролью
+        claims.put("roles", "USER");
 
         RsCommonUser response = new RsCommonUser()
                 .setId(user.getId())
